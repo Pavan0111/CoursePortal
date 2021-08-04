@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} home {% endblock title %}
+{% block body %} 
+<div class="container">
+<div class="jumbotron my-3">
+  <h1 class="display-4">Welcome to Portal</h1>
+  <p class="lead">Total 100 courses are available, you have to choose any 5 courses out of 100.</p>
+  <hr class="my-4">
+  <p>Student have to select any 5 course based on there skills.</p>
+  <a class="btn btn-primary btn-lg" href="/blog" role="button">Go to Courses</a>
+  </div>
+  <div class="container">
+<h2>Top Rated Courses</h2>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">Django</strong>
+          <h3 class="mb-0">Basics of Django</h3>
+          <div class="mb-1 text-muted">Nov 12</div>
+          <p class="card-text mb-auto">One of the most rated course of all time.</p>
+          <a href="#" class="stretched-link">Register</a>
+        </div>
+   <div class="col-auto d-none d-lg-block">
+          
+        </div>     
+      </div>
+      </div>
+</div>{% endblock body %}
