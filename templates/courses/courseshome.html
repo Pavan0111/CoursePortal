@@ -33,7 +33,52 @@
           <a href="#" role="button" class="btn btn-primary">Register</a>
         </div>
     </div>
+   <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">Javascript</strong>
+          <h1 class="mb-0">Basics of Javascript</h1>
+          <div class="mb-1 text-muted">Nov 12</div>
+          <p class="card-text mb-auto">Details</p>
+          <divclass="my-2>
+          <a href="#" role="button" class="btn btn-primary">Register</a>
+        </div>
+    </div>
+   
+     
+     
+
    <div class="col-auto d-none d-lg-block">
           
         </div>     
       </div>{% endblock body %}
+
+      {% block js %}
+<script>
+console.log('working');
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+else
+{
+cart = JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+$('.cart').click(function(){
+console.log('clicked');
+var idstr = this.id.toString();
+console.log(idstr);
+if (cart[idstr] !=undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else
+{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+</script>
+
+
+      {% endblock js %}

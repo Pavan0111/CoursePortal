@@ -26,11 +26,12 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">about</a>
-          </li>
+         
           <li class="nav-item">
             <a class="nav-link" href="/courses">courses</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link" href="/cart">cart(<span id="cart">0</span>)</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/contact">contact</a>
@@ -42,15 +43,33 @@
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-             <!-- Button trigger Login modal -->
-<button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-  Login
-</button>
-             <!-- Button trigger SignUp modal -->
+
+{% if user.is_authenticated %}
+ <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+  <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Welcome
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            
+          </ul>
+    </li>
+</ul>
+ {{request.user}}
+{% else %}
+      <!-- Button trigger SignUp modal -->
 <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#signupModal">
   signup
 </button>
         
+             <!-- Button trigger Login modal -->
+<button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+  Login
+</button>
+
+
+{% endif %}       
 
       </div>
     </div>
@@ -76,34 +95,34 @@
       <form action="/signup" method='post'>
       <div class="mb-3">
   <label for="username" class="form-label">Username</label>
-  <input type="text" class="form-control" id="username" name="username" placeholder="choose a unique username">
+  <input type="text" class="form-control" id="username" name="username" placeholder="choose a unique username" required>
 </div> 
       <div class="mb-3">
   <label for="fname" class="form-label">First Name</label>
-  <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+  <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required>
 </div> 
       <div class="mb-3">
   <label for="lname" class="form-label">Last Name</label>
-  <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+  <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required>
 </div> 
       <div class="mb-3">
   <label for="email" class="form-label">Email address</label>
-  <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+  <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
 </div>
       <div class="mb-3">
   <label for="pass1" class="form-label">Password</label>
-  <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter a password">
+  <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter a password" required>
 </div>
       <div class="mb-3">
   <label for="pass2" class="form-label">Confirm Password</label>
-  <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Enter password again">
+  <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Enter password again" required>
 </div>
   
       </div>
       <div class="modal-footer">
-         
-        <button type="button" class="btn btn-primary">Submit</button>
-        </form>
+         {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
       </div>
     </div>
   </div>
@@ -118,26 +137,43 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+       <form action="/login" method='post'>
       <div class="mb-3">
   <label for="username" class="form-label">Username</label>
-  <input type="text" class="form-control" id="username" name="username" placeholder="choose a unique username">
+  <input type="text" class="form-control" id="username" name="loginusername" placeholder="choose a unique username" required>
 </div> 
      
       <div class="mb-3">
-  <label for="pass1" class="form-label">Password</label>
-  <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter a password">
+  <label for="pass" class="form-label">Password</label>
+  <input type="password" class="form-control" id="pass" name="loginpassword" placeholder="Enter a password" required>
 </div>
       
   
       </div>
       <div class="modal-footer">
-         
-        <button type="button" class="btn btn-primary">Submit</button>
+         {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
   {% block body %}{% endblock body %}
+
+  <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+
+  {% block js %}{% endblock %}
 
   <!-- Optional JavaScript; choose one of the two! -->
 

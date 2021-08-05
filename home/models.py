@@ -7,18 +7,9 @@ class Contact(models.Model):
      phone= models.CharField(max_length=13)
      email= models.CharField(max_length=100)
      content= models.TextField()
+
      timeStamp=models.DateTimeField(auto_now_add=True, blank=True)
 
 
      def __str__(self):
           return "Message from " + self.name + ' - ' + self.email
-
-
-# class user(models.Model):
-     # username
-
-
-
-# class User_Courses(models.Model):
-     # rows
-     # user linked to which course

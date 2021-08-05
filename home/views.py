@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from home.models import Contact
 from django.contrib import messages
+from django.contrib.auth  import authenticate,  login, logout
 from django.contrib.auth.models import User
 
 
@@ -12,9 +13,9 @@ def home(request):
     #return HttpResponse('This is Home')
 
 
-def about(request):
-    return render(request, 'home/about.html')
-    #return HttpResponse('This is about')
+def cart(request):
+    return render(request, 'home/cart.html')
+    #return HttpResponse('This is cart')
 
 def contact(request):
     if request.method=='POST':
@@ -35,7 +36,6 @@ def contact(request):
     #return HttpResponse('This is contact')
 
 def handleSignup(request):
-    
     if request.method=="POST":
         # Get the post parameters
         username=request.POST['username']
@@ -46,16 +46,46 @@ def handleSignup(request):
         pass2=request.POST['pass2']
 
         # check for errorneous input
-        
+        if len(username)>10:
+            messages.error(request, " Your user name must be under 10 characters")
+            return redirect('home')
+
+        if not username.isalnum():
+            messages.error(request, " User name should only contain letters and numbers")
+            return redirect('home')
+        if (pass1!= pass2):
+             messages.error(request, " Passwords do not match")
+             return redirect('home')
         # Create the user
         myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name= fname
         myuser.last_name= lname
         myuser.save()
-        messages.success(request, " Your iCoder has been successfully created")
-
+        messages.success(request, " Your Portal has been successfully created")
         return redirect('home')
-        # return HttpResponse('This is signup handle')
 
     else:
         return HttpResponse("404 - Not found")
+
+def handlelogin(request):
+     if request.method=="POST":
+        # Get the post parameters
+        loginusername=request.POST['loginusername']
+        loginpassword=request.POST['loginpassword']
+
+        user=authenticate(username= loginusername, password= loginpassword)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Successfully Logged In")
+            return redirect("home")
+        else:
+            messages.error(request, "Invalid credentials! Please try again")
+            return redirect("home")
+     return HttpResponse('handlelogin')
+     return HttpResponse("404 - Not found")
+
+def handlelogout(request):
+       logout(request)
+       messages.success(request,"successfully logged out")
+       return redirect('home')
+       return HttpResponse('handlelogout')
